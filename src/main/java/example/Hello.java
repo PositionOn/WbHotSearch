@@ -68,7 +68,7 @@ public class Hello {
 
         Map<String, Object> param = new HashMap<>();
         String head = "---";
-        param.put("key","542b8e80c78f46f48ce923d520b8588f");
+        param.put("key","你的KY");
         param.put("head","实时推送微博热点");
 
 
