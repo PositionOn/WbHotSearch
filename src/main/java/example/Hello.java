@@ -58,26 +58,30 @@ public class Hello {
         }
 //        System.out.println(top10Message);
 //        System.out.println(allMessage);
+        Date date = new Date();
+        SimpleDateFormat df = new SimpleDateFormat("HH");
+        SimpleDateFormat md = new SimpleDateFormat("MMdd");
+        String str = df.format(date);
+        String mmddStr = md.format(date);
 
+        String historyToday = "### [历史上的今天(点我查看)](https://api.comm.miui.com/calendar-history-today/index.html?date="+mmddStr+")";
 
         Map<String, Object> param = new HashMap<>();
         String head = "---";
         param.put("key","542b8e80c78f46f48ce923d520b8588f");
         param.put("head","实时推送微博热点");
 
-        Date date = new Date();
-        SimpleDateFormat df = new SimpleDateFormat("HH");
-        String str = df.format(date);
+
         int time = Integer.parseInt(str);
         //12点才推送的图片早报
         if(time <= 12){
             String pictureUrl = HttpUtil.createGet("http://dwz.2xb.cn/zaob").execute().charset("utf-8").body();
             JSONObject pictureJson = JSON.parseObject(pictureUrl);
             String purl = pictureJson.getString("imageUrl");
-            String msg1 = "[每天60秒读懂世界(点我查看)]("+purl+")";
-            param.put("body", top10Message.toString() + "\n" +head+ "\n" +msg1+ "\n"+head + "\n" + allMessage.toString());
+            String msg1 = "### [每天60秒读懂世界(点我查看)]("+purl+")";
+            param.put("body", top10Message + "\n" +head+ "\n"+msg1+"\n"+historyToday+"\n"+allMessage);
         } else {
-            param.put("body", top10Message.toString() + "\n" +head+ "\n" + allMessage.toString());
+            param.put("body", top10Message + "\n" +head+ "\n"+historyToday+"\n" + allMessage);
         }
 
             String url = "http://push.ijingniu.cn/send";
